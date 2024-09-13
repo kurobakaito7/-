@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // ------------原函数-------------
+        /* function sum(a, b, c, d, e) {
+            return a+b+c+d+e
+        } */
+
+        // ------------需求----------------
+        // 改写函数sum实现：参数传递到5个即可实现累加
+        // sum(1)(2)(3)(4)(5)
+        // sum(1)(2,3)(4)(5)
+        // sum(1)(2,3,4)(5)
+        // sum(1)(2,3)(4,5)
+
+        /* // 1.保存不定长参数
+        let nums = []
+        function sum(...args) {
+            nums.push(...args)
+            // 2. 判断参数的个数
+            if(nums.length >= 5){
+                // 2.1 长度到5 累加
+                const res = nums.slice(0, 5).reduce((p,v) => p+v,0)
+                //注意：累加之后需要清空数组，保证下次累加的值是正确的
+                nums = []
+                return res
+            }else {
+                // 2.2 长度没到5 返回函数接收剩余参数
+                return sum
+            }
+        } */
+
+        // 调优-参数的个数可以自定义
+        // 基于上一节代码，实现函数sumMaker：参数个数可以自定义
+        function sumMaker(length) {
+            // 1. 复用上一节的逻辑
+            let nums = []
+            function sum(...args) {
+                nums.push(...args)
+                if (nums.length >= length) {
+                    const res = nums.slice(0,length).reduce((p,v) => p+v)
+                    nums = []
+                    return res
+                }else {
+                    return sum
+                }
+            }
+
+            return sum
+        }
+
+        // 写一个方法实现函数柯里化
+        const curry = (fn,...args1) => {
+            if(args1.length >= fn.length) {
+                // 传入参数的长度大于原始函数的参数，则直接进行
+                return fn(...args1);
+            }else {
+                // 传入的参数个数小于函数的参数个数
+                return (...newArgs) => {
+                    // 合并已有的参数和新传入的参数
+                    return curry(fn,...args1,...newArgs);
+                }
+            }
+        }
+
+        const add = (a,b,c,d) => a + b + c + d
+        const curAdd = curry(add)
+
+        console.log(curAdd(1,2,3)(4))
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 公共的属性写到构造函数里面
+        function Star(name,age){
+            this.name = name;
+            this.age = age;
+            /* this.sing = function() {
+                console.log('唱歌')
+            } */
+        }
+        //公共的方法写到原型对象身上
+        Star.prototype.sing = function(){
+                console.log('唱歌')
+        }
+        const zjl = new Star('周杰伦',30);
+        const ljj = new Star('林俊杰',32);
+        zjl.sing();
+        ljj.sing();
+        console.log(zjl === ljj);//false
+        console.log(zjl.sing === ljj.sing);//true
+
+
+        //自定义数组扩展方法，求最大值 求和 
+        const arr = [3,5,7];
+        //求最大值
+        Array.prototype.max = function() {
+            return Math.max(...this)
+        }
+        //求和
+        Array.prototype.sum = function() {
+            return this.reduce((prev,item) => prev + item,0)
+        }
+        console.log(arr.max());//7
+        console.log(arr.sum());//15
+    </script>
+</body>
+</html>

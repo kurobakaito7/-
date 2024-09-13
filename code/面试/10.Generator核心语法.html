@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator核心语法</title>
+</head>
+<body>
+    <script>
+        /**
+         * Generator核心语法
+         *  1. 定义生成器函数
+         *  2. 获取Generator对象
+         *  3. next方法
+         *  4. for of
+        */
+       //1. 定义生成器函数
+       function* kkkkGenerator() {
+        console.log('执行成功')
+        yield 'kk'
+        yield 'kirito'
+        yield 'e7'
+       }
+
+       //2. 获取 Generator对象
+       const kkkkk = kkkkGenerator();//调用时不会执行函数
+
+       // 3.next方法-执行函数
+       // {value:'yield之后的值',done:false/true}
+       // done：判断是否执行完毕，false 可以继续执行，true 已经执行完毕
+       // value：yield之后的值'kk'/'kirito'/'e7'
+
+       // 4. for of
+       for (const iterator of kkkkk) {
+        console.log(iterator)
+       }
+    </script>
+</body>
+</html>

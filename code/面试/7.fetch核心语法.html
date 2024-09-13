@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>fetch核心语法</h2>
+    <button class="btn">测试</button>
+    <script>
+        /**
+         * fetch核心语法
+         *  1. 如何发请求？
+         *  2. 如何处理响应（JSON）？
+         *  3. 如何处理异常？
+        */
+        document.querySelector('.btn').addEventListener('click',async () => {
+            const p = new URLSearchParams({pname:'四川省',cname:'成都市'})
+            // 1. 处理请求，默认是get方法，参数 url地址，返回的Promise
+            const res = await fetch('http://hmajax.itheima.net/api/area?'+p.toString())
+            console.log(res)
+
+            if(res.status >= 200 && res.status < 300) {
+                //2.处理响应（JSON）.json方法
+                const data = await res.json()
+                console.log(data)                
+            } else {
+                // 3. 处理异常
+                console.log('请求异常',res.status)
+            }
+        })
+    </script>
+</body>
+</html>

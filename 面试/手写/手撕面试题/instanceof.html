@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+       /* 填写样式 */
+    </style>
+</head>
+
+<body>
+    <!-- 填写标签 -->
+    <script type="text/javascript">
+        // 填写JavaScript
+        const _instanceof = (target, Fn) => {
+        if(Object(target) !== target) return false;
+        if(!Fn.prototype) return false;
+
+        let left = target.__proto__;
+        let right = Fn.prototype;
+        while(true){
+            // 找到尽头都没找到时
+            if(left == null) {
+                return false;
+            }
+            if(left === right){
+                return true;
+            }
+            left = left.next;
+        }
+}
+    </script>
+</body>
+
+</html>

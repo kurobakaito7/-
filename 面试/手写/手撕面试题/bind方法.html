@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+    </head>
+    <body>
+    	
+<script type="text/javascript">
+    // 补全代码
+    Function.prototype._bind = function(target, ...arguments1) {
+        target = target || window;
+
+        const symbolKey = Symbol();
+        target[symbolKey] = this;
+
+        // 返回一个函数
+        return (...arg2) => {
+            let result = target[symbolKey](...arguments1,...arg2);
+            return result;
+        }
+}
+
+    
+</script>
+    </body>
+</html>

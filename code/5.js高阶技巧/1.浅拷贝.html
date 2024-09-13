@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* const Person = {
+            name:'kkkk',
+            age:20
+        }
+
+        const ke = Person
+        console.log(ke)// {name: 'kkkk', age: 20}
+        ke.age = 18
+        console.log(ke)// {name: 'kkkk', age: 18}
+        console.log(Person)// {name: 'kkkk', age: 18} */
+
+
+        //浅拷贝
+        // 拷贝对象
+        /* const Person = {
+            name:'kkkk',
+            age:20
+        } */
+        //1、展开运算符赋值
+        /* const ke = { ...Person }
+        console.log(ke)// {name: 'kkkk', age: 20}
+        ke.age = 18
+        console.log(ke)// {name: 'kkkk', age: 18}
+        console.log(Person)// {name: 'kkkk', age: 20} */
+        // Object.assign方法
+        /* const ke = {}
+        Object.assign(ke,Person)
+        console.log(ke)// {name: 'kkkk', age: 20}
+        ke.age = 18
+        console.log(ke)// {name: 'kkkk', age: 18}
+        console.log(Person)// {name: 'kkkk', age: 20} */
+
+        //但是还有问题
+        /* const Person = {
+            name:'kkkk',
+            age:20,
+            hobby:{
+                game:'王者荣耀'
+            }
+        }
+        const ke = {}
+        Object.assign(ke,Person)
+        console.log(ke)
+        //更改对象里面的hobby还是会有影响
+        ke.hobby.game = '蛋仔派对'
+        console.log(ke)
+        console.log(Person) */
+    </script>
+</body>
+</html>

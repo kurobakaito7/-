@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const obj = {
+            uname:'kkkk',
+            age:20,
+            game:['王者荣耀','蛋仔派对'],
+            hobby:{
+                yule:'刷抖音'
+            }
+        }
+        //递归函数实现深拷贝
+        /* function deepCopy(newObj,oldObj) {
+            for(let k in oldObj){
+                //k表示属性名
+                if(oldObj[k] instanceof Array){
+                    //处理数组的问题——注意：一定要先判断数组，在判断对象（因为Array instanceof Object）
+                    newObj[k] = []
+                    deepCopy(newObj[k],oldObj[k])
+                }else if(oldObj[k] instanceof Object){
+                    //处理对象问题‘
+                    newObj[k] = {}
+                    deepCopy(newObj[k],oldObj[k])
+                }else{
+                    newObj[k] = oldObj[k]
+                }
+            }
+        } 
+        const o = {}
+        deepCopy(o,obj) */
+
+        //js库中的lodash里面的cloneDeep内部实现了深拷贝
+        /* var _ = require('lodash');
+        const o = _.cloneDeep(obj) */
+
+        //通过JSON.stringify()实现
+        const o = JSON.parse(JSON.stringify(obj))
+        
+        o.game[0] = '第五人格'
+        o.hobby.yule = '看小说'
+        console.log(o)
+        console.log(obj)
+    </script>
+</body>
+</html>

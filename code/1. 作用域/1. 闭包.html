@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //常见的闭包形式  外部可以访问函数内部的变量
+        function outer() {
+            let a = 10;
+            function fn() {
+                console.log(a);
+            }
+            return fn;
+        }
+        // outer()  === fn === function fn() {}
+        const fun = outer();
+        fun(); // 函数调用
+
+        // 闭包的应用  统计函数调用的次数
+        function count() {
+            //将i设为数据私有，无法直接修改i
+            let i = 0;
+            function fn() {
+                i++;
+                console.log(i);
+            }
+            return fn;
+        }
+
+        const fun1 = count();
+
+    </script>
+</body>
+</html>

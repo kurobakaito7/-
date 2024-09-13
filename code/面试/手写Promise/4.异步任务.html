@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 异步任务-函数封装
+         * 1. 定义函数
+         * 2. 调用核心api
+         * 3.使用封装函数
+        */
+       // 1.定义函数
+       function runAsynctask(callback) {
+        // 2. 调用核心api(queueMicrotask,MutationObserver,setTimeOut)
+        if(typeof queueMicrotask === 'function') {
+            queueMicrotask(callback)
+        }else if(MutationObserver === 'function') {
+            const obs = new MutationObserver(callback)
+            const divNode = document.createElement('div')
+            obs.observe(divNode,{childList:true})
+            divNode.innerHTML = 'kkkkk'
+        }else{
+            setTimeout(callback,0)
+        }
+       }
+        const PENDING = 'pending'
+        const FULFILLED = 'fulfilled'
+        const REJECTED = 'rejected'
+        class MyPromise {
+            // 添加状态
+            state = PENDING
+            // 添加原因
+            result = undefined
+
+            //定义实例属性
+            #handlers = [] // [{onFulfilled,onRejected}...]
+
+            //构造函数
+            constructor(fun) {
+                // 调整resolve/reject
+                const resolve = (result) => {
+                    // 状态不可逆
+                    if(this.state === PENDING) {
+                        // 改状态：pending->fulfilled
+                        this.state = FULFILLED
+                        // 记录原因
+                        this.result = result
+                        // 3.调用成功的回调
+                        this.#handlers.forEach(({onFulfilled}) => {
+                            onFulfilled(this.result)
+                        })
+                    }
+                }
+                const reject = (result) => {
+                    // 状态不可逆
+                    if(this.state === PENDING) {
+                        // 改状态：pending->rejected
+                        this.state = REJECTED
+                        // 记录原因
+                        this.result = result
+                        // 4. 调用失败的回调
+                        this.#handlers.forEach(({onRejected}) => {
+                            onRejected(this.result)
+                        })
+                    }
+                }
+                fun(resolve,reject)
+            }
+            // 添加实例方法
+            then(onFulfilled,onRejected){
+                // 参数判断
+                onFulfilled = typeof onFulfilled === 'function'? onFulfilled : x => x
+                onRejected = typeof onRejected === 'function'? onRejected : x => {throw x}
+
+                // 3. 使用封装函数
+                if (this.state === FULFILLED){
+                    runAsynctask(() => {
+                        onFulfilled(this.result)
+                    })
+                }else if(this.state === REJECTED){
+                    runAsynctask(() => {
+                        onRejected(this.result)
+                    })
+                }else if(this.state === PENDING){
+                    // 保存回调函数
+                    this.#handlers.push({
+                        onFulfilled:()=>{
+                            runAsynctask(() => {
+                                onFulfilled(this.result)
+                            })
+                        },
+                        onRejected:()=>{
+                            runAsynctask(() => {
+                                onRejected(this.result)
+                            })
+                        }
+                    })
+                }
+            }
+        }
+
+
+        //---------------测试代码--------------------
+        console.log('top')
+        const p = new MyPromise((resolve,reject) => {
+            // resolve('success')
+            reject('error')
+        })
+        p.then(res => {
+            console.log(res)
+        },err => {
+            console.log(err)
+        })
+        console.log('bottom')
+    </script>
+</body>
+</html>

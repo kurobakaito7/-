@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 手写call方法
+         * 1. 定义myCall方法
+         * 2. 设置this并调用原函数
+         * 3. 接收剩余参数并返回结果
+         * 4. 使用Symbol调优
+        */
+        // 1. 定义myCall方法
+        Function.prototype.myCall = function(thisArg,...args) {
+            //2. 设置this并调用原函数
+            // thisArg 传入的设置为this的对象
+            // this 原函数（原函数.myCall）
+            /* thisArg.f = this;
+            //3. 接收剩余参数并返回结果
+            const res = thisArg.f(...args);
+            //删除添加的函数
+            delete thisArg.f;
+            return res; */
+
+            // 4. 使用Symbol调优
+            // 给thisArg加一个一定和原属性不重名的新属性（方法）
+            const key = Symbol('key');
+            //thisArg.key
+            thisArg[key] = this;
+            const res = thisArg[key](...args);
+            delete thisArg[key];
+            return res;
+        }
+
+
+        // -------------测试代码--------------
+        const person = {
+            name:'kkkk'
+        }
+        function func(numA,numB) {
+            console.log(this)
+            console.log(numA + numB)
+            return numA + numB
+        }
+        const res = func.myCall(person,2,8)
+        console.log('返回值为：', res)
+
+        // -------------测试Symbol------------
+        // 调用Symbol内置函数，可以传入字符串作为标记
+        // 返回一个唯一的值
+        const s1 = Symbol();
+        const s2 = Symbol();
+        console.log(s1 === s2);//false
+    </script>
+</body>
+</html>

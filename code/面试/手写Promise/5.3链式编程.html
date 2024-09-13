@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function runAsynctask(callback) {
+        // 调用核心api(queueMicrotask,MutationObserver,setTimeOut)
+        if(typeof queueMicrotask === 'function') {
+            queueMicrotask(callback)
+        }else if(MutationObserver === 'function') {
+            const obs = new MutationObserver(callback)
+            const divNode = document.createElement('div')
+            obs.observe(divNode,{childList:true})
+            divNode.innerHTML = 'kkkkk'
+        }else{
+            setTimeout(callback,0)
+        }
+       }
+        const PENDING = 'pending'
+        const FULFILLED = 'fulfilled'
+        const REJECTED = 'rejected'
+        class MyPromise {
+            // 添加状态
+            state = PENDING
+            // 添加原因
+            reason = undefined
+
+            //定义实例属性
+            #handlers = [] // [{onFulfilled,onRejected}...]
+
+            //构造函数
+            constructor(fun) {
+                // 调整resolve/reject
+                const resolve = (reason) => {
+                    // 状态不可逆
+                    if(this.state === PENDING) {
+                        // 改状态：pending->fulfilled
+                        this.state = FULFILLED
+                        // 记录原因
+                        this.reason = reason
+                        // 3.调用成功的回调
+                        this.#handlers.forEach(({onFulfilled}) => {
+                            onFulfilled(this.reason)
+                        })
+                    }
+                }
+                const reject = (reason) => {
+                    // 状态不可逆
+                    if(this.state === PENDING) {
+                        // 改状态：pending->rejected
+                        this.state = REJECTED
+                        // 记录原因
+                        this.reason = reason
+                        // 4. 调用失败的回调
+                        this.#handlers.forEach(({onRejected}) => {
+                            onRejected(this.reason)
+                        })
+                    }
+                }
+                fun(resolve,reject)
+            }
+            // 添加实例方法
+            then(onFulfilled,onRejected){
+                // 参数判断
+                onFulfilled = typeof onFulfilled === 'function'? onFulfilled : x => x
+                onRejected = typeof onRejected === 'function'? onRejected : x => {throw x}
+
+                const p2 = new MyPromise((resolve,reject) => {
+                    if (this.state === FULFILLED){
+                    runAsynctask(() => {
+                        try {
+                            const x =  onFulfilled(this.reason)
+                            resolvePromise(p2,x,resolve,reject)
+                        } catch (error) {
+                            reject(error)
+                        }
+                    })
+                }else if(this.state === REJECTED){
+                    runAsynctask(() => {
+                        try {
+                            const x = onRejected(this.reason)
+                            resolvePromise(p2,x,resolve,reject)
+                        } catch (error) {
+                            reject(error)
+                        }
+                    })
+                }else if(this.state === PENDING){
+                    // 保存回调函数
+                    this.#handlers.push({
+                        onFulfilled:()=>{
+                            runAsynctask(() => {
+                                try {
+                                    const x = onFulfilled(this.reason)
+                                    resolvePromise(p2,x,resolve,reject)
+                                } catch (error) {
+                                    reject(error)
+                                }
+                            })
+                        },
+                        onRejected:()=>{
+                            runAsynctask(() => {
+                                try {
+                                    const x = onRejected(this.reason)
+                                    resolvePromise(p2,x,resolve,reject)
+                                } catch (error) {
+                                    reject(error)
+                                }
+                            })
+                        }
+                    })
+                }
+                })
+                return p2
+            }
+        }
+
+        //抽取函数
+        function resolvePromise(p2,x,resolve,reject) {
+            if(x == p2) {
+                throw new TypeError('Chaining cycle detected for promise #<Promise>')
+            }
+            if (x instanceof MyPromise) {
+                x.then(res => resolve(res),err => reject(err))
+            }else{
+                resolve(x)
+            }
+        }
+
+        const p = new Promise((resolve,reject) => {
+            resolve(1)
+        })
+        const p2 = p.then(res => {
+            // return p2 
+            // throw 'err'
+            // return 2
+            /* return new MyPromise((resolve,reject) => {
+                reject('reject-2')
+            }) */
+        })
+        p2.then(res => {
+            console.log('p2-res',res)
+        },err => {
+            console.log('p2-err',err)
+        })
+    </script>
+</body>
+</html>

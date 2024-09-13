@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+       /* 填写样式 */
+    </style>
+</head>
+
+<body>
+    <!-- 填写标签 -->
+    <script type="text/javascript">
+        // 填写JavaScript
+        /* 1. 参数默认为window
+        2. 获取调用该方法的对象，将this赋给对象参数，可以任意命名
+        3. 通过该对象参数临时调用函数并返回结果
+        4. 最后删除对象参数的临时函数属性 */
+        Function.prototype._call = function(target,...args) {
+            target = target || window;
+            const symbolKey = Symbol();
+            target[symbolKey] = this;
+            const res = target[symbolKey](...args);
+            delete target[symbolKey];
+            return res;
+        }
+    </script>
+</body>
+
+</html>

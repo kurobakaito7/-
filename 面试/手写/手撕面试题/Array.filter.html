@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+       /* 填写样式 */
+    </style>
+</head>
+
+<body>
+<!-- 填写标签 -->
+<script type="text/javascript">
+    // 填写JavaScript
+    /* 1. 判断参数是否为函数，如果不是则直接返回
+    2. 创建一个空数组用于承载新的内容
+    3. 循环遍历数组中的每个值，分别调用函数参数，将满足判断条件的元素添加进空数组中
+    4. 返回新的数组 */
+    Array.prototype._filter = function(Fn) {
+        if(typeof Fn !== 'function') return;
+        const array = this;
+        const newArray = [];
+        for(let i = 0;i<array.length;i++) {
+            const result = Fn.call(arguments[1],array[i],i,array);
+            result && newArray.push(array[i])
+        }
+        return newArray;    
+}
+
+</script>
+</body>
+
+</html>

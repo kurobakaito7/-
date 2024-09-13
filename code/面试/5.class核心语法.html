@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class核心语法</title>
+</head>
+<body>
+    <script>
+/*         //定义类
+        class Person {
+            // 公有属性（推荐定义在这里）
+            name
+            //定义属性并设置默认值
+            age = 18
+            // 构造函数
+            constructor(name) {
+                //构造函数内部的this  实例化对象
+                this.name = name
+                //动态添加属性（不推荐）
+                this.foods = ['西红柿炒番茄','香菜炒肉']
+            }
+            // 公有方法
+            sayHi() {
+                console.log('父类的sayHi')
+            }
+        }
+
+        //基于类  实例化对象
+        const p = new Person('kkkk')
+
+        //-------子类--------------
+        class Student extends Person {
+            constructor(name,age) {
+                //必须要调用super
+                super(name);
+                this.age = age;
+            }
+            sayHello() {
+                console.log('hello')
+            }
+            //同名方法，就近原则
+            sayHi() {
+                console.log('子类的sayHi')
+            }
+        }
+        const s = new Student('lihua',18) */
+
+
+        /**
+         * 静态属性
+         *  定义时：static 开头
+         *  访问时：通过类来访问
+         * 私有属性
+         *  定义时：#开头
+         *  使用时：#开头，和定义的名字相同，只能在类的内部使用
+        */
+       class Test {
+        //静态属性和方法
+        static stInfo = '我是静态属性'
+        static stMethod() {
+            console.log('我是静态方法')
+        }
+
+        //私有属性和方法
+        #prInfo = '我是私有属性'
+        #prMethod() {
+            console.log('我是私有方法')
+        }
+        testPr() {
+            console.log(this.#prInfo)
+            this.#prMethod()
+        }
+       }
+
+       //访问静态属性和方法
+       Test.stMethod()
+       console.log(Test.stInfo)
+
+       const t = new Test();
+       t.testPr()
+       //类的外部，无法直接访问私有属性/方法
+    </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 状态及原因
+         *  1.添加状态（pending / fulfilled / rejected）
+         *  2.添加原因
+         *  3.调整resolve/reject
+         *  4.状态不可逆
+        */
+       //通过变量保存状态，便于后续使用
+       const PENDING = 'pending'
+       const FULFILLED = 'fulfilled'
+       const REJECTED = 'rejected'
+       class MyPromise {
+        // 1. 添加状态
+        state = PENDING
+        // 2. 添加原因
+        result = undefined
+
+        constructor(fun) {
+            // 3. 调整resolve/reject
+            const resolve = (result) => {
+                // 状态不可逆
+                if(this.state === PENDING) {
+                    // 改状态：pending->fulfilled
+                this.state = FULFILLED
+                // 记录原因
+                this.result = result
+                }
+            }
+            const reject = (result) => {
+                // 状态不可逆
+                if(this.state === PENDING) {
+                    // 改状态：pending->rejected
+                this.state = REJECTED
+                // 记录原因
+                this.result = result
+                }
+            }
+            fun(resolve,reject)
+        }
+       }
+
+       const k = new MyPromise((resolve,reject) => {
+        resolve('success')
+       })
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+       /* 填写样式 */
+    </style>
+</head>
+
+<body>
+    <!-- 填写标签 -->
+    <script type="text/javascript">
+        // 填写JavaScript
+        const _quickSort = array => {
+        if(array.length <= 1) return array;
+        let pIndex = Math.floor(array.length/2);
+        let p = array.splice(pIndex,1)[0];
+        let left = [];
+        let right = [];
+        for(let i = 0;i<array.length;i++) {
+            if(array[i] < p){
+                left.push(array[i]);
+            }else{
+                right.push(array[i])
+            }
+        }
+        return [..._quickSort(left),p,..._quickSort(right)];
+}
+    </script>
+</body>
+
+</html>

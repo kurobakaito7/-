@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        console.log(this);//window
+
+        //箭头函数的this
+        const fn = () => {
+            console.log(this);//window
+        }
+        fn();
+
+        //对象方法的箭头函数的this指向
+        const obj = {
+            uname:'kkkk',
+            sayHi: () => {
+                console.log(this);//window
+            }
+        }
+        obj.sayHi();
+
+        const obj1 = {
+            uname:'kkkk',
+            sayHi: function () {
+                const thisTo = () => {
+                    console.log(this);//obj1 -> 因为此时的传统函数的this指向函数的调用者obj1
+                }
+                thisTo()
+            }
+        }
+        obj1.sayHi();
+    </script>
+</body>
+</html>

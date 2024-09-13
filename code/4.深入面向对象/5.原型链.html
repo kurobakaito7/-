@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // console.log(Object.prototype)
+        console.log(Object.prototype.__proto__)// null
+        function Person() {
+
+        }
+        const cxk = new Person()
+        console.log(cxk.__proto__ === Person.prototype)//true
+        console.log(Person.prototype.__proto__ === Object.prototype)//true
+        console.log(cxk instanceof Person)//true
+        console.log(cxk instanceof Object)//true
+        console.log(cxk instanceof Array)//false
+        console.log([1,2,3] instanceof Array)//true
+        console.log(Array instanceof Object)//true
+    </script>
+</body>
+</html>

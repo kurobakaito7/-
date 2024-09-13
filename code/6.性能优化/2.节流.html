@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //书写节流函数
+        function throttle(fn, t) {
+            let timer = null
+            return function() {
+                if(!timer) {
+                    timer = setTimeout(function() {
+                        fn();
+                        //清空定时器
+                        //在setTimeout中是无法删除定时器的，因为定时器还在运作。
+                        //所以使用timer = null 而不是 clearTimeout(timer)
+                        timer = null
+                    },t)
+                }
+            }
+        }
+    </script>
+</body>
+</html>

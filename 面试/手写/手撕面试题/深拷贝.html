@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+    </head>
+    <body>
+    	
+        <script type="text/javascript">
+            const _completeDeepClone = (target, map = new Map()) => {
+                // 补全代码
+                if(target == null) return target;
+                if(typeof target !== 'object') return target;
+                // 如果是下面几个对象引用类型之一，直接返回使用作为构造函数生成的新对象
+                if(/^(Function|RegExp|Date|Map|Set)$/i.test(constructor.name))
+                return new constructor(target)
+                if(map.get(target)) return map.get(target);
+                map.set(target, true);
+                const targetCopy = target instanceof Array ? [] : {};
+                for(let k in target){
+                    if(target.hasOwnProperty(k)) {
+                        targetCopy[k] = _completeDeepClone(target[k],map);
+                    }
+                }
+                return targetCopy;
+            }
+        </script>
+    </body>
+</html>

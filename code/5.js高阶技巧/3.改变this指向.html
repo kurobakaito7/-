@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>按钮</button>
+    <script>
+        const obj = {
+            uname:'kkkk'
+        }
+        //call()
+        /* function fn(x,y){
+            console.log(this);
+            console.log(x + y)
+        }
+        //1.调用函数
+        //2.改变this指向
+        fn.call(obj,1,2) */
+
+        //apply()
+        /* function fn(x,y){
+            console.log(this);
+            console.log(x + y);//3
+        }
+        //1.调用函数
+        //2.改变this指向
+        fn.apply(obj,[1,2]);
+        //3. 返回值  本身就是在调用函数，所以返回值就是函数的返回值
+        //使用场景：求数组最大值
+        const arr = [100,44,77];
+        const max = Math.max.apply(Math,arr);
+        console.log(max);//100 */
+
+        //bind()
+        function fn(){
+            console.log(this);
+        }
+        //1.bind 不会调用函数
+        //2.改变this指向
+        //3.返回值是一个函数，但是这个函数里面的this是更改过的
+        const fun = fn.bind(obj);
+        // console.log(fun);//fun是个函数
+        fun();// {uname: 'kkkk'}
+
+        //需求：有一个按钮，点击立马就禁用，2秒钟之后就开启
+        const btn = document.querySelector('button')
+        btn.addEventListener('click',function() {
+            //禁用按钮
+            this.disabled = true;
+            //常规使用定时器，这里的this指向的是window
+            /* setTimeout(function() {
+                this.disabled = false;
+            },2000) */
+            setTimeout(function() {
+                //在这个普通函数里面，我们要将this由原来的指向window改为btn
+                this.disabled = false;
+            }.bind(this),2000)//这里的this就是btn
+            //当然箭头函数也能解决这个问题
+            /* setTimeout(() => {
+                this.disabled = false
+            },2000) */
+        })
+    </script>
+</body>
+</html>

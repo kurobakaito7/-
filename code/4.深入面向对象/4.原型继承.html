@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //将公共部分放在原型身上
+        /* const Person = {
+            eyes:2,
+            head:1
+        } */
+        //构造函数  new 出来的对象  结构一样，但是对象不一样
+        function Person() {
+            this.eyes = 2,
+            this.head = 1
+        }
+
+        //女人，构造函数，继承Person
+        function Women() {
+
+        }
+        //Women通过原型来继承Person
+        Women.prototype = new Person()
+        //指回原来的构造函数
+        Women.prototype.constructor = Women
+        const alice = new Women()
+        //给女生添加一个方法生孩子
+        Women.prototype.baby = function() {
+            console.log('宝贝')
+        }
+        console.log(alice)
+        console.log(Women.prototype)
+
+        //男人 ，构造函数，继承Person
+        function Man() {
+
+        }
+        //通过原型继承Person
+        Man.prototype = new Person()
+        Man.prototype.constructor = Man
+        const cxk = new Man()
+        console.log(cxk)
+        console.log(Man.prototype)
+
+        // 寄生组合式继承
+        Women.prototype = Object.create(Person.prototype);
+        Women.prototype.constructor = Women;
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const obj = {
+            uname:'kkk',
+            age:18
+        }
+
+        const {uname:username,age} = obj;
+        console.log(username,age);
+        //数组对象的解构
+        const arr = [
+            {
+                sname:'帅k',
+                sage:19
+            }
+        ]
+
+        const [{sname,sage}] = arr;
+        console.log(sname,sage);
+    </script>
+</body>
+</html>

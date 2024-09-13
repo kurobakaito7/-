@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+       /* 填写样式 */
+    </style>
+</head>
+
+<body>
+<!-- 填写标签 -->
+<script type="text/javascript">
+    // 填写JavaScript
+    /* 1. 创建一个临时函数
+    2. 将该临时函数的原型指向对象参数
+    3. 返回该临时对象的实例 */
+    const _objectCreate = proto => {
+        if(typeof proto !== 'object' || proto === null) return;
+        const fn = function() {}
+        fn.prototype = proto;
+        return new fn();
+    }
+</script>
+</body>
+
+</html>

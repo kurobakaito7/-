@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+       /* 填写样式 */
+    </style>
+</head>
+
+<body>
+<!-- 填写标签 -->
+<script type="text/javascript">
+    // 填写JavaScript
+    /* 1. 在Array的原型对象上添加"_reduce"函数
+    2. "_reduce"函数第一个参数为回调函数，第二个参数为初始值
+    3. 进入数组长度的循环体中
+    4. 当初始值为空时，首个被加数为数组的第一项
+    5. 当初始值不为空时，首个被加数为初始值 */
+    Array.prototype._reduce = function (fn,prev) {
+        const array = this;
+        for(let i = 0;i < array.length;i++){
+            if(prev === undefined) {
+                prev = fn(array[i],array[i+1],i+1,array);
+                ++i;// 这步千万别忘！！！
+            }else{
+                prev = fn(prev,array[i],i,array);
+            }
+        }
+        return prev;
+    }
+</script>
+</body>
+
+</html>

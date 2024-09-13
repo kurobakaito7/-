@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+       /* 填写样式 */
+    </style>
+</head>
+
+<body>
+    <!-- 填写标签 -->
+    <script type="text/javascript">
+        // 填写JavaScript
+        // 方式一
+        const _permute = string => {
+        const res = [],path = []
+        backTrack(string,string.length,[]);
+        return res;
+
+        function backTrack(s,k,used){
+        // 当数组被填满，就是一种情况
+        if(path.length === k){
+            res.push(path.join(''));
+            return;
+        }
+        for(let i = 0;i<k;i++) {
+            if(used[i]) continue;
+            path.push(s[i]);
+            used[i] = true;// 同枝
+            // 回溯，状态重置
+            backTrack(s,k,used)
+            path.pop();
+            used[i] = false;
+        }
+    }
+}
+// 方式二
+const _permute_2 = string => {
+   const res = [];
+   const backTrack = path => {
+    if(path.length === string.length){
+        res.push(path);
+        return;
+    }
+    for (const i of string) {
+        if(path.includes(i)) continue;
+        backTrack(path+i);
+    }
+   }
+   backTrack('')
+   return res;
+}
+
+    </script>
+</body>
+
+</html>

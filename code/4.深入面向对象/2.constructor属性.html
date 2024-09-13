@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Star(name) {
+            this.name = name;
+        }
+        /* Star.prototype = {
+            sing:function() {console.log('唱歌')},
+            dance:function() {console.log('跳舞')}
+        }
+        console.log(Star.prototype.constructor);//指向Object */
+
+        Star.prototype = {
+            //手动利用constructor 指向构造函数
+            constructor:Star,
+            sing:function() {console.log('唱歌')},
+            dance:function() {console.log('跳舞')}
+        }
+        console.log(Star.prototype.constructor);//指向Star
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+        //数组reduce方法
+        const arr = [1,3,5,7];
+        //1.没有初始值
+        const total1 = arr.reduce((prev,current) => {
+            return prev + current;
+        })
+        console.log(total1)
+        //2.有初始值
+        const total2 = arr.reduce((prev,current) => {
+            return prev + current
+        },10)
+        console.log(total2)
+        */
+
+        //find方法
+
+        /* const arr = [
+            {
+                name:'小米',
+                price:1999
+            },
+            {
+                name:'华为',
+                price:3999
+            }
+        ]
+
+        const mi = arr.find((item) => {
+            return item.name === '小米'
+        })
+        console.log(mi) */
+
+        //every方法
+        const result = [12,68,23,73,90,22].every(x => x>= 10)
+        console.log(result)
+
+    </script>
+</body>
+</html>

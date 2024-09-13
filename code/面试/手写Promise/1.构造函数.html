@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 构造函数
+         *  1.定义类
+         *  2.添加构造函数
+         *  3.定义resolve/reject
+         *  4.执行回调函数
+        */
+
+        // 1.定义类
+       class MyPromise{
+        // 2.添加构造函数
+        constructor(fun) {
+            // 3.定义resolve/reject
+            const resolve = (result) => {
+                console.log(result)
+            }
+            const reject = (result) => {
+                console.log(result)
+            }
+            // 4.执行回调函数
+            fun(resolve,reject)
+        }
+       }
+
+       // -----------测试代码------------------
+       const k = new MyPromise((resolve,reject) => {
+        console.log('函数执行')
+        resolve('success')
+        reject('error')
+       })
+    </script>
+</body>
+</html>
