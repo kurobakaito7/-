@@ -9,3 +9,7 @@ console.log(false == 0) // true
 console.log(false == '') // true
 console.log(false == []) // true
 console.log(1 == '1') // true
+
+if([]){
+    console.log(1);
+}

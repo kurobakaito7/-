@@ -55,6 +55,7 @@ class LRUCache {
 
     // 在链表头添加一个节点（把一本书放在最上面）
     pushFront(node){
+        // 以下写法不会超时
         node.prev = this.dummy;
         node.next = this.dummy.next;
         node.prev.next = node;

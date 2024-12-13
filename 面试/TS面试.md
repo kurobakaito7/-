@@ -1,6 +1,39 @@
 # 什么是TypeScript？
 `TypeScript`是一种由微软开发的开源编程语言，它是`JavaScript`的超集。`TypeScript`通过添加**静态类型、类、接口和模块**等功能，使得在大型应用程序中更容易进行维护和扩展。它可以被编译为纯`JavaScript`，从而能够在任何支持`JavaScript`的地方运行。使用`TypeScript`可以帮助开发人员在编码过程中避免一些常见的错误，并提供更好的代码编辑功能和工具支持。
 
+# TS常用类型
+
+## 基础类型
+- **string:** 表示字符串。例如:`let name: string = "John"`
+- **number:** 表示数字数据，包括整数和浮点数。例如:`let age: number = 30`
+- **boolean:** 表示布尔值，只有 `true` 和 `false` 两种取值。例如:`let isActive: boolean = true`
+- **null:** 表示空值，通常与 `undefined` 一起使用
+- **undefined:** 表示未定义的值
+- **symbol:** 表示独一无二的值，主要用于对象属性的唯一标识。例如:`let sym: symbol = Symbol()`
+- **bigint:** 表示任意精度的整数。例如 12345678901234567890123456
+- **数组 []**
+- **元组 Tuple**
+
+## 复杂类型
+
+- array 数组
+- tuple 元组
+- enum 枚举
+- object 对象
+
+## 特殊类型
+
+- any: 任意类型
+- unknown: 未知类型
+- never: 不会发生的值，通常用于标识函数永远不会有返回值（如抛出异常）或 永远不会有结果的情况
+- void: 空值，通常用于标识函数没有返回值
+
+## 高级类型和类型操作
+
+1. 联合类型 `|` 和交叉类型 `&`
+2. type 类型别名
+3. interface 接口
+
 # 接口（interface）与类型别名（Type Alias）
 
 接口是用于描述对象的形状的结构化类型。它定义了对象应该包含哪些属性和方法。在TypeScript中，接口可以用来约束对象的结构，以提高代码的可读性和维护性。
