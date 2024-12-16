@@ -18,12 +18,23 @@ function promiseRace(promiseArray) {
     })
 }
 
+// 该方法的参数是 Promise 实例数组, 然后其 then 注册的回调方法是数组中的某一个 Promise 的状态变为 fulfilled 的时候就执行. 
+// 因为 Promise 的状态只能改变一次, 那么我们只需要把 Promise.race 中产生的 Promise 对象的 resolve 方法, 注入到数组中的每一个 Promise 实例中的回调函数中即可.
+
+function promiseRace2(promiseArr) {
+    return new Promise((resolve, reject) => {
+        for(let i=0;i<promiseArr.length;i++) {
+            Promise.resolve(promiseArr[i]).then(resolve, reject);
+        }
+    })
+}
+
 const arr = [
-    Promise.resolve(1),
-    Promise.resolve(2),
+    Promise.reject(1),
+    Promise.reject(2),
     Promise.resolve(3)
 ]
-promiseRace(arr).then(values => {
+promiseRace2(arr).then(values => {
     console.log('res',values)
 },reason => {
     console.log('err',reason)
