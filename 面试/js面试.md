@@ -624,7 +624,7 @@ Pending（未决）初始状态
 Fulfilled（已履行/成功）：操作完成时的状态
 Rejected（已拒绝/失败）：操作因错误或异常未能完成时的状态
 Promise状态变化的特性是：
-Promise状态转变是不可逆且只能发生一次。也就是说，一个Promise对象不能从Fulfilled状态变回Pending状态，也不能从Rejected状态变为Pending或者Fulfilled状态。 一旦Promise从Pending状态变为Fulfilled（resolved）或Rejected（rejected），它就永远不会再改变。
+Promise状态转变是不可逆且只能发生一次。Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果，这时就称为 resolved（已定型）。如果改变已经发生了，再对Promise对象添加回调函数，也会立即得到这个结果。
 因此，Promise的状态不能重复改变。
 Promise.resolve()与Promise.reject()用于创建已确定状态的Promise对象，方便快速返回成功的或失败的结果
 
@@ -659,15 +659,68 @@ JavaScript 是单线程的，采用事件循环机制来处理异步操作。每
 #### Promise没有返回的情况下如何进行处理？
 Promise没有return或者reject，Promise会一直处于pending状态，函数无法正确执行。同时异步任务一直存在与队列中，导致任务申请的资源无法回收，出现内存泄漏情况。
 
+## async和await
+
+#### 对 async/await 的理解
+
+async/await其实是Generator 的语法糖，它能实现的效果都能用then链来实现，它是为优化then链而开发出来的。从字面上来看，async是“异步”的简写，await则为等待，所以很好理解async 用于申明一个 function 是异步的，而 await 用于等待一个异步方法执行完成。当然语法上强制规定await只能出现在asnyc函数中
+
+async 函数返回的是一个 Promise 对象。async 函数（包含函数语句、函数表达式、Lambda表达式）会返回一个 Promise 对象，如果在函数中 return 一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成 Promise 对象。
+
+async 函数返回的是一个 Promise 对象，所以在最外层不能用 await 获取其返回值的情况下，当然应该用原来的方式：then() 链来处理这个 Promise 对象
+
+如果 async 函数没有返回值，它会返回 `Promise.resolve(undefined)`。
+
+联想一下 Promise 的特点——无等待，所以在没有 await 的情况下执行 async 函数，它会立即执行，返回一个 Promise 对象，并且，绝不会阻塞后面的语句。这和普通返回 Promise 对象的函数并无二致。
+
+> 注意：`Promise.resolve(x)` 可以看作是 `new Promise(resolve => resolve(x))` 的简写，可以用于快速封装字面量对象或其他对象，将其封装成 Promise 实例。
+
+#### await 等待
+
+await 在等待的东西？
+
+因为 async 函数返回一个 Promise 对象，所以 await 可以用于等待一个 async 函数的返回值——这也可以说是 await 在等 async 函数，但要清楚，它等的实际是一个返回值。注意到 await 不仅仅用于等 Promise 对象，它可以等任意表达式的结果，所以，await 后面实际是可以接普通函数调用或者直接量的。
+
+await 表达式的运算结果取决于它等的是什么。
+- 如果它等到的不是一个 Promise 对象，那 await 表达式的运算结果就是它等到的东西。
+- 如果它等到的是一个 Promise 对象，await 就忙起来了，它会阻塞后面的代码，等着 Promise 对象 resolve，然后得到 resolve 的值，作为 await 表达式的运算结果。
+
+```js
+function testAsy(x){
+   return new Promise(resolve=>{setTimeout(() => {
+       resolve(x);
+     }, 3000)
+    }
+   )
+}
+async function testAwt(){    
+  let result =  await testAsy('hello world');
+  console.log(result);    // 3秒钟之后出现hello world
+  console.log('cuger')   // 3秒钟之后出现cuger
+}
+testAwt();
+console.log('cug')  //立即输出cug
+```
+这就是 await 必须用在 async 函数中的原因。async 函数调用不会造成阻塞，它内部所有的阻塞都被封装在一个 Promise 对象中异步执行。await暂停当前async的执行，所以'cug'最先输出，'hello world'和‘cuger’是3秒钟后同时出现的。
+
+#### async/await优势
+
+单一的 Promise 链并不能发现 async/await 的优势，但是，如果需要处理由多个 Promise 组成的 then 链的时候，优势就能体现出来了:
+
+Promise 的 链式调用可以变成 await 近似同步书写的方式，让代码更加清晰
+
+#### async/await 捕获异常
+
+async/await 异常捕获可以用成熟的 try/catch, 而Promise的错误捕获⾮常冗余
+
 
 #### async和await底层原理
 async/await是建立与promise之上的语法糖。它使异步代码能够以同步的方式书写。
 其底层原理主要依赖于promise的链式调用和js的事件循环机制。
 
 + 在底层，async/await通过编译器被转换成了Promise的链式调用。编译器会把await表达式转换成Promise.then()的调用，并处理错误。
-+ async/await捕获异常：通过async函数内部使用try/catch捕获异常
 
-#### Generator函数
+## Generator函数
 Generator是es6引入的一种新的函数类型，它允许函数在执行过程中被暂停和恢复。其原理主要依赖于函数的执行上下文和迭代器协议
 1. 执行上下文
 2. 迭代器协议
