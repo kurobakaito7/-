@@ -37,3 +37,4 @@ const tree = [
 
 let arr = treeToArray(tree);
 console.log(arr);
+

@@ -49,7 +49,7 @@ const _completeDeepClone = (target, map = new Map()) => {
     // 如果有循环引用
     if(map.has(target)) return map.get(target);
     const targetCopy = target instanceof Array ? [] : {};
-    map.set(obj, targetCopy);
+    map.set(target, targetCopy);
     for(let k in target){
         if(target.hasOwnProperty(k)) {
             targetCopy[k] = _completeDeepClone(target[k],map);
