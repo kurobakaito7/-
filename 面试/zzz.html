@@ -5,44 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .container {
-            height: 1px;
-            transform: scaleY(0.5);
-            background-color: black;
-        }
-    </style>
+
 </head>
 
 <body>
-    <div class="container">
-    </div>
+
 </body>
 <script>
-    var name = 'window'
-
-var person1 = {
-    name: 'person1',
-    foo1: function () {
-        console.log(this.name)
-    },
-
-    foo2: () => console.log(this.name),   
-    foo3: function () {
-        return function () {
-            console.log(this.name)
-        }
-    },
-    foo4: function () {
-        return () => {
-            console.log(this.name)
-        }
+    window.number = 2;
+    var obj = {
+        number: 3,
+        db1: (function () {
+            console.log(this);
+            this.number *= 4;
+            return function () {
+                console.log(this);
+                this.number *= 5;
+            }
+        })()
     }
-}
-person1.foo1();
-person1.foo2();
-person1.foo3()();
-person1.foo4()();
+    var db1 = obj.db1;
+    db1();
+    obj.db1();
+    console.log(obj.number);     // 15
+    console.log(window.number);  // 40
 </script>
 
 </html>
